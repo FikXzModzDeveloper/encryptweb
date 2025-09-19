@@ -6,6 +6,18 @@ const resultText = document.getElementById('resultText');
 const copyBtn = document.getElementById('copyBtn');
 const textInput = document.getElementById('text');
 
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
 methodSelect.addEventListener('change', () => {
   const val = methodSelect.value;
   key2Group.style.display = (val === 'encrypt2' || val === 'decrypt2') ? 'block' : 'none';
@@ -22,7 +34,7 @@ form.addEventListener('submit', async (e) => {
   const key2 = encodeURIComponent(document.getElementById('key2').value.trim());
 
   if (!text || !key1) {
-    alert('Text dan Key wajib diisi!');
+    showToast('Text dan Key wajib diisi!', 'error');
     return;
   }
 
@@ -33,13 +45,13 @@ form.addEventListener('submit', async (e) => {
     url = `https://api.fikmydomainsz.xyz/crypto/decrypt?text=${text}&key=${key1}`;
   } else if (method === 'encrypt2') {
     if (!key2) {
-      alert('Key2 wajib diisi untuk Encrypt Double Key!');
+      showToast('Key2 wajib diisi untuk Encrypt Double Key!', 'error');
       return;
     }
     url = `https://api.fikmydomainsz.xyz/crypto/encrypt2?text=${text}&key1=${key1}&key2=${key2}`;
   } else if (method === 'decrypt2') {
     if (!key2) {
-      alert('Key2 wajib diisi untuk Decrypt Double Key!');
+      showToast('Key2 wajib diisi untuk Decrypt Double Key!', 'error');
       return;
     }
     url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2}`;
@@ -63,9 +75,6 @@ form.addEventListener('submit', async (e) => {
 
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(resultText.textContent).then(() => {
-    copyBtn.textContent = 'Tersalin!';
-    setTimeout(() => {
-      copyBtn.textContent = 'Salin Hasil';
-    }, 1500);
+    showToast('Hasil berhasil disalin!', 'success');
   });
 });
