@@ -17,9 +17,14 @@ methodSelect.addEventListener('change', () => {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const method = methodSelect.value;
-  const text = encodeURIComponent(document.getElementById('text').value);
-  const key1 = encodeURIComponent(document.getElementById('key1').value);
-  const key2 = encodeURIComponent(document.getElementById('key2').value);
+  const text = encodeURIComponent(document.getElementById('text').value.trim());
+  const key1 = encodeURIComponent(document.getElementById('key1').value.trim());
+  const key2 = encodeURIComponent(document.getElementById('key2').value.trim());
+
+  if (!text || !key1) {
+    alert('Text dan Key wajib diisi!');
+    return;
+  }
 
   let url = '';
   if (method === 'encrypt1') {
@@ -27,8 +32,16 @@ form.addEventListener('submit', async (e) => {
   } else if (method === 'decrypt1') {
     url = `https://api.fikmydomainsz.xyz/crypto/decrypt?text=${text}&key=${key1}`;
   } else if (method === 'encrypt2') {
+    if (!key2) {
+      alert('Key2 wajib diisi untuk Encrypt Double Key!');
+      return;
+    }
     url = `https://api.fikmydomainsz.xyz/crypto/encrypt2?text=${text}&key1=${key1}&key2=${key2}`;
   } else if (method === 'decrypt2') {
+    if (!key2) {
+      alert('Key2 wajib diisi untuk Decrypt Double Key!');
+      return;
+    }
     url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2}`;
   }
 
@@ -36,17 +49,23 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(url);
     const data = await res.json();
     if (data.status) {
-      resultText.value = data.result;
+      resultText.textContent = data.cipher || data.plain;
       resultBox.style.display = 'block';
     } else {
-      alert(data.error || 'Terjadi kesalahan');
+      resultText.textContent = 'Error: ' + (data.error || 'Unknown error');
+      resultBox.style.display = 'block';
     }
-  } catch {
-    alert('Gagal terhubung ke server');
+  } catch (err) {
+    resultText.textContent = 'Request gagal: ' + err.message;
+    resultBox.style.display = 'block';
   }
 });
 
 copyBtn.addEventListener('click', () => {
-  resultText.select();
-  document.execCommand('copy');
+  navigator.clipboard.writeText(resultText.textContent).then(() => {
+    copyBtn.textContent = 'Tersalin!';
+    setTimeout(() => {
+      copyBtn.textContent = 'Salin Hasil';
+    }, 1500);
+  });
 });
