@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Encrypt Tools | fmds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="dontol-container">
+  <div class="container">
     <div class="logo">
       <div class="logo-icon"></div>
       <span class="logo-text">Encrypt Tools</span>
     </div>
 
-    <form id="cryptoForm" class="login-form">
+    <form id="cryptoForm" class="form">
       <div class="form-group">
         <label class="form-label">Metode</label>
-        <select id="method" class="form-control" style="padding-left: 1rem;">
+        <select id="method" class="form-control">
           <option value="encrypt1">Encrypt Single Key (AES+Base64+ROT13+Reverse)</option>
           <option value="decrypt1">Decrypt Single Key (Reverse single-key stack)</option>
           <option value="encrypt2">Encrypt Double Key (AES+Base32+Hex+ROT13+Reverse)</option>
@@ -26,17 +26,17 @@
 
       <div class="form-group">
         <label class="form-label">Text</label>
-        <input type="text" id="text" class="form-control" placeholder="Masukkan teks" style="padding-left: 1rem;">
+        <input type="text" id="text" class="form-control" placeholder="Masukkan teks" />
       </div>
 
       <div class="form-group" id="key1Group">
         <label class="form-label">Key</label>
-        <input type="text" id="key1" class="form-control" placeholder="Masukkan key" style="padding-left: 1rem;">
+        <input type="text" id="key1" class="form-control" placeholder="Masukkan key" />
       </div>
 
       <div class="form-group" id="key2Group" style="display: none;">
         <label class="form-label">Key 2</label>
-        <input type="text" id="key2" class="form-control" placeholder="Masukkan key 2" style="padding-left: 1rem;">
+        <input type="text" id="key2" class="form-control" placeholder="Masukkan key 2" />
       </div>
 
       <button type="submit" class="btn btn-primary">Proses</button>
