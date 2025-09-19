@@ -29,30 +29,4 @@ form.addEventListener('submit', async (e) => {
   } else if (method === 'encrypt2') {
     url = `https://api.fikmydomainsz.xyz/crypto/encrypt2?text=${text}&key1=${key1}&key2=${key2}`;
   } else if (method === 'decrypt2') {
-    url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2}`;
-  }
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.status) {
-      resultText.textContent = data.cipher || data.plain;
-      resultBox.style.display = 'block';
-    } else {
-      resultText.textContent = 'Error: ' + (data.error || 'Unknown error');
-      resultBox.style.display = 'block';
-    }
-  } catch (err) {
-    resultText.textContent = 'Request gagal: ' + err.message;
-    resultBox.style.display = 'block';
-  }
-});
-
-copyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText(resultText.textContent).then(() => {
-    copyBtn.textContent = 'Tersalin!';
-    setTimeout(() => {
-      copyBtn.textContent = 'Salin Hasil';
-    }, 1500);
-  });
-});
+    url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2
