@@ -29,4 +29,24 @@ form.addEventListener('submit', async (e) => {
   } else if (method === 'encrypt2') {
     url = `https://api.fikmydomainsz.xyz/crypto/encrypt2?text=${text}&key1=${key1}&key2=${key2}`;
   } else if (method === 'decrypt2') {
-    url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2
+    url = `https://api.fikmydomainsz.xyz/crypto/decrypt2?text=${text}&key1=${key1}&key2=${key2}`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.status) {
+      resultText.value = data.result;
+      resultBox.style.display = 'block';
+    } else {
+      alert(data.error || 'Terjadi kesalahan');
+    }
+  } catch {
+    alert('Gagal terhubung ke server');
+  }
+});
+
+copyBtn.addEventListener('click', () => {
+  resultText.select();
+  document.execCommand('copy');
+});
